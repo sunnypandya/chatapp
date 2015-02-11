@@ -1,0 +1,16 @@
+{% load url from future %}
+{% load static %}
+{% block userlist %}
+<div class="row">
+{% for list_user in users1 %}
+  <div class="col-sm-6 col-md-4">
+    <div class="thumbnail">
+      <div class="caption">
+        <h3 style="text-align:center;">{{ list_user.username }}</h3>
+        <p><a href="{% url 'friendship_add_friend' list_user.username %}" class="btn btn-primary" role="button">Add as friend</a> 
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% endblock %}

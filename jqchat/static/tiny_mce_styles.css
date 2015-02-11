@@ -1,0 +1,45 @@
+/* Extra custom CSS for the tinyMCE editor.
+Some of these styles are used elsewhere in the site so they should always be loaded. */
+
+/* Top-left hand corner photo in template photo_TL */
+.imageTopLeft {
+	float: left;
+	margin: 0 10px 10px 0;
+ 	border: 1px solid black;
+}
+
+
+.imageLeft {
+	float: left;
+	margin: 10px 10px 10px 0;
+ 	border: 1px solid black;
+}
+
+.imageBottomLeft {
+	float: left;
+	margin: 10px 10px 0 0;
+ 	border: 1px solid black;
+}
+
+.imageTopRight {
+	float: right;
+	margin: 0 0 10px 10px;
+ 	border: 1px solid black;
+}
+
+.imageRight {
+	float: right;
+	margin: 10px 0 10px 10px;
+ 	border: 1px solid black;
+}
+
+.imageBottomRight {
+	float: right;
+	margin: 10px 0 0 10px;
+ 	border: 1px solid black;
+}
+
+.centered {
+	margin-left: auto;
+	margin-right: auto;
+}

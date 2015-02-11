@@ -1,0 +1,11 @@
+{%load static %}
+{% block loginbody %}
+     <form action="/account/auth/" method="post">{% csrf_token %}
+      <label for="usernameInput"></label><input type="text" placeholder="Username" id="username" name="username" value="" required>
+      <label for="passwordInput"></label><input type="password" placeholder="Password" name="password" value="" id="password" >
+      <button type="submit" name="submit" value="">Sign In</button>
+    </form>
+    {% if form.errors %}
+    <p class="error">Sorry, not a valid username or password</p>
+    {% endif %}
+{% endblock %}

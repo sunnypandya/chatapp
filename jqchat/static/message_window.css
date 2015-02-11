@@ -1,0 +1,48 @@
+body{
+padding-left: 20px;
+}
+#room-list{
+ height: 250px;
+ width: 200px;
+ border: 1px solid;
+ padding: 5px;
+ margin: 10px 0;
+ overflow: hidden;
+ overflow-y: auto;
+ background-color: white;
+ float: left;	
+ border-right: none;
+}
+#chat-window-container {
+ height: 320px;
+ width: 400px;
+ border: 1px solid;
+ margin: 10px 0;
+ background-color: white;
+ float: left;
+}
+#chatwindow{
+padding: 5px;
+border-bottom: 1px solid;
+ height: 250px;
+ width: 400px;
+ overflow: auto;
+}
+#memberswindow {
+ height: 250px;
+ width: 100px;
+ border: 1px solid;
+ padding: 5px;
+ margin: 10px 0;
+ overflow: auto;
+ background-color: white;
+ float: left;
+ border-left: none;
+}
+.clear{
+ clear: both;
+}
+#form-container{
+	display: block;
+	padding: 5px;
+}

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+   <head>
+      <meta charset="UTF-8">
+      <title>{%block title%}Demo for Django-jqchat{%endblock%}</title>
+   <!-- End of treemenus -->
+
+      <script src="/static/jquery.js"></script>
+      <!-- JS common to all projects; load jQuery and a JS exception handler. -->
+<script type="text/javascript" src="/static/common.js"></script>
+<script type="text/javascript">
+   $(document).ready(function(){
+      // This code is run when the page is loaded.
+      ExceptionHandler();
+   });
+</script><!-- End of common JS -->
+      {% block extra_head %}{% endblock %}
+   </head>
+   <body>
+    {% block content %}{% endblock %}
+   </body>
+</html>
