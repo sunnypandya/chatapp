@@ -58,7 +58,7 @@ p, ul, ol {
 }
 
 ul, ol {
-	margin-left: 3em;
+	margin-left: 0em;
 }
 
 blockquote {
@@ -570,7 +570,7 @@ hr {
 	float: left;
 	bottom: 0;
 	width: 270px;
-	height: 350px;
+	height: 335px;
 	visibility: visible;
 }
 .chat-frame .chat-show{
@@ -591,14 +591,14 @@ hr {
 }
 .chat-frame .members .close-chat{
 	position: absolute;
-	height: 18px;
+	height: 20px;
 	float: right;
 	background-color: white;
-	width: 18px;
+	width: 19px;
 	right: 9px;
-	top: 11px;
+	top: 10px;
 	color: black;
-	font-size: 15px;
+	font-size: 14px;
 	border-radius: 50%;
 	text-align: center;
 	cursor: pointer;
@@ -611,7 +611,8 @@ hr {
 	width: 270px;
 	padding: 5px;
 }
-.chat-frame #chatform{
+.chat-frame .chatform-class{
 	width: 100%;
 	height: 60px;
+	padding: 0px 5px;
 }

@@ -126,6 +126,7 @@ function InitChatWindow(ChatMessagesUrl, ProcessResponseCallback){
 
     $.post(url,
         {
+        csrfmiddlewaretoken: csrf_token,
         time: timestamp,
         action: "postmsg",
         message: $("#msg").val()
@@ -167,6 +168,7 @@ function InitChatDescription(){
     clearInterval(IntervalID);
     $.post(url,
         {
+        csrfmiddlewaretoken: csrf_token,
         time: timestamp,
         action: "change_description",
         description: $("#id_description").val()
@@ -188,13 +190,13 @@ function InitChatDescription(){
 // Join leave section
 function room_join() {
     clearInterval(IntervalID)
-    $.post(url,{time: timestamp, action: "room_join"}, function(payload) {processResponse(payload);}, 'json');
+    $.post(url,{csrfmiddlewaretoken: csrf_token,time: timestamp, action: "room_join"}, function(payload) {processResponse(payload);}, 'json');
     //IntervalID = setInterval(callServer, CallInterval);
 }
 
 function room_leave() {
     clearInterval(IntervalID)
-    $.post(url,{time: timestamp, action: "room_leave"}, function(payload) {processResponse(payload);}, 'json');
+    $.post(url,{csrfmiddlewaretoken: csrf_token,time: timestamp, action: "room_leave"}, function(payload) {processResponse(payload);}, 'json');
     //IntervalID = setInterval(callServer, CallInterval);
 }
 

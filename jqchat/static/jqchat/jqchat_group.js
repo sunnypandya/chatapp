@@ -58,10 +58,10 @@ var IntervalID = 0;
 var prCallback = null;
 
 function callServer(obj){
-        if (timestamp == 0) {return false;};
+        if (obj.timestamp == 0) {return false;};
   // At each call to the server we pass data.
   $.get(obj.url, // the url to call.
-      {time: timestamp}, // the data to send in the GET request.
+      {time: obj.timestamp}, // the data to send in the GET request.
       function(payload) { // callback function to be called after the GET is completed.
                                                   processResponse(payload, obj);
               },
@@ -73,11 +73,11 @@ function callServer(obj){
 
 function processResponse(payload, obj) {
   // if no new messages, return.
-  if(payload.status == 0) return;
+  if(payload.status == 0) {};
   // Get the timestamp, store it in global variable to be passed to the server on next call.
-  timestamp = payload.time;
+  obj.timestamp = payload.time;
   for(message in payload.messages) {
-              $('#chatwindow').append(payload.messages[message].text);
+              $('#chat-window-container').find('#chatwindow').append(payload.messages[message].text);
   }
         // Populate the room members window
         //$("#memberswindow").html("")
@@ -119,9 +119,9 @@ function InitChatWindow(ChatMessagesUrl, ProcessResponseCallback, obj){
   // manually trigger an immediate call.
   if (!duplicate_msg_possible) {
                 duplicate_msg_possible = false;
-                callServer(obj);
+                
        }
-
+  callServer(obj);
   // Process messages input by the user & send them to the server.
   $("#chatform").submit(function(){
     // If user clicks to send a message on a empty message box, then don't do anything.
@@ -134,7 +134,7 @@ function InitChatWindow(ChatMessagesUrl, ProcessResponseCallback, obj){
     $.post(url,
         {
                             csrfmiddlewaretoken: csrf_token,
-        time: timestamp,
+        time: obj.timestamp,
         action: "postmsg",
         message: $("#msg").val()
               },
@@ -198,7 +198,7 @@ function InitChatDescription(){
 function room_join(obj) {
     clearInterval(obj.IntervalID);
     //login_timestamp = +new Date / 1000;
-    $.post(obj.url,{time: timestamp, csrfmiddlewaretoken: csrf_token, action: "room_join"}, function(payload) {processResponse(payload, obj);}, 'json');
+    $.post(obj.url,{time: obj.timestamp, csrfmiddlewaretoken: csrf_token, action: "room_join"}, function(payload) {processResponse(payload, obj);}, 'json');
     /*obj.IntervalID = setInterval(function(){
       callServer(obj); 
     }, CallInterval);*/
@@ -207,7 +207,7 @@ function room_join(obj) {
 function room_leave(obj) {
     clearInterval(obj.IntervalID);
     //login_timestamp = +new Date / 1000;
-    $.post(obj.url,{time: timestamp, csrfmiddlewaretoken: csrf_token, action: "room_leave"}, function(payload) {processResponse(payload, obj);}, 'json');
+    $.post(obj.url,{time: obj.timestamp, csrfmiddlewaretoken: csrf_token, action: "room_leave"}, function(payload) {processResponse(payload, obj);}, 'json');
     /*obj.IntervalID = setInterval(function(){
       callServer(obj); 
     }, CallInterval);*/

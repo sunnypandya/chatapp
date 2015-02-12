@@ -1,48 +1,49 @@
 body{
-padding-left: 20px;
+
+}
+#room-list-container{
+	border: 1px solid;
+ 	border-right: none;
+ 	height: 402px;
 }
 #room-list{
- height: 250px;
- width: 200px;
- border: 1px solid;
- padding: 5px;
- margin: 10px 0;
- overflow: hidden;
- overflow-y: auto;
- background-color: white;
- float: left;	
- border-right: none;
+	margin-left: -15px;
+	margin-right: -15px;
+	height: 100%;
+	overflow: hidden;
+	overflow-y: auto;
 }
 #chat-window-container {
- height: 320px;
- width: 400px;
- border: 1px solid;
- margin: 10px 0;
- background-color: white;
- float: left;
+	height: 490px;
+	border: 1px solid;
+	background-color: white;
 }
 #chatwindow{
-padding: 5px;
-border-bottom: 1px solid;
- height: 250px;
- width: 400px;
- overflow: auto;
-}
-#memberswindow {
- height: 250px;
- width: 100px;
- border: 1px solid;
- padding: 5px;
- margin: 10px 0;
- overflow: auto;
- background-color: white;
- float: left;
- border-left: none;
-}
-.clear{
- clear: both;
+	padding: 10px 0px;
+	height: 400px;
+	overflow-x: hidden;
+	overflow-y: auto;
 }
 #form-container{
 	display: block;
-	padding: 5px;
+	padding: 0px;
+	border-top: 1px solid;
+	margin-left: -15px;
+	margin-right: -15px;
+}
+#msg{
+	resize:none;
+	overflow: hidden;
+	overflow-y: auto;
+}
+#memberswindow {
+	height: 402px;
+	border: 1px solid;
+	border-left: none;
+	padding: 10px;
+	overflow-x: hidden;
+	overflow-y: auto;
+}
+.clear{
+	clear: both;
 }

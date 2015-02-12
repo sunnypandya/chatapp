@@ -102,4 +102,13 @@ function ExceptionHandler(){
 	
 })(jQuery);
 
-GLOBALS = []
+GLOBALS = [];
+
+function set (arr) {
+  return arr.reduce(function (a, val) {
+    if (a.indexOf(val) === -1) {
+        a.push(val);
+    }
+    return a;
+  }, []);
+};

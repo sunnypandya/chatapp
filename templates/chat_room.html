@@ -1,32 +1,44 @@
 {% extends "html/base.html" %}
 {% load url from future %}
-
+{% load staticfiles %}
 {% block title %}Chat Client{% endblock %}
-
 {% block extra_head %}
 <link href="/static/styles.css" rel="stylesheet" type="text/css" media="screen" />
 <link rel="stylesheet" type="text/css" media="screen" href="/static/tiny_mce_styles.css" />
+<style type="text/css">
+	ul li a{
+		display: block;
+	}
+</style>
 <!-- Load the JS for the chat window and start retrieving messages. -->
-<script type="text/javascript" src="/static/jqchat/jqchat_custom.js"></script>
 {% endblock %}
 
 {% block content %}
-<h1>{{user.username}}</h1>
-{% if users %}
-	<ul id="user-list">
-	{% for user in users %}
-		<li><a href="javascript:void(0);" data-id="{{user.id}}">{{user.username}}</a></li>
-	{% endfor %}
-	</ul>
-{% endif %}
-<!--<div id="chatwindow"><span id="loading">Loading...</span></div>
-<div id="memberswindow"></div>
-<div class="clear"></div>
-<form id="chatform">
-	<label for="msg">Message:</label>
-	<input type="text" id="msg" />
-	<input type="submit" value="Send message" /><br />
-</form>-->
+<div class="container-fluid">
+	<div class="row">
+		{% if users %}
+		<div class="col-sm-3 pull-left">
+			<ul id="user-list" class="list-group">
+			{% for user in users %}
+				<li class="list-group-item">
+					<a href="javascript:void(0);" data-id="{{user.id}}">{{user.username}}</a>
+				</li>
+			{% endfor %}
+			</ul>
+		</div>
+		<div class="col-sm-9"></div>
+		{% endif %}
+	</div>
+	<div class="row">
+		<div class="col-sm-12">
+			<form id="group_chat_form">
+				<label for="group_friend_list">Want to group chat?</label><br><br>
+				<textarea id="group_friend_list" class="form-control" style="width:400px;height:50px;">Enter your friend's name list seperated by ','</textarea><br>
+				<input class="btn btn-primary" type="submit" value="Create Group Chat">
+			</form>
+		</div>
+	</div>
+</div>
 <div id="chats-container">
 	<div id="right-panel">
 		<div class="chat-frame-container" id="chat-frame-container-clone">
@@ -41,25 +53,20 @@
 					<div id="chatwindow"></div>
 					<div class="clear"></div>
 					<form id="chatform">
-						<input type="text" id="msg" />
-						<input type="submit" value="Send message" /><br />
+						<input type="text" id="msg" class="form-control" />
+						<!--<input type="submit" value="Send message" /><br />-->
 					</form>
 				</div>
 			</div>	
 		</div>		
 	</div>
 </div>
-<br><br>
-<div>
-	<form id="group_chat_form">
-		<label for="group_friend_list">Want to group chat?</label><br><br>
-		<textarea id="group_friend_list" style="width:400px;height:50px;">Enter your friend's name list seperated by ','</textarea><br><br>
-		<input type="submit" value="Create Group Chat">
-	</form>
-</div>
-<script type="text/javascript" src="/static/function.js"></script>
-<script type="text/javascript">
-	login_timestamp = '{{login_timestamp}}';
-	csrf_token = '{{csrf_token}}';
-</script>
 {% endblock %}
+{% block scripts %}
+	<script type="text/javascript" src="/static/jqchat/jqchat_custom.js"></script>
+	<script type="text/javascript" src="/static/function.js"></script>
+	<script type="text/javascript">
+		login_timestamp = '{{login_timestamp}}';
+		csrf_token = '{{csrf_token}}';
+	</script>
+{%endblock%}

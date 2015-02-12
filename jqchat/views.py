@@ -8,6 +8,7 @@ from bson.objectid import ObjectId
 from models import Room, RoomMember, Message
 from django.views.decorators.csrf import csrf_exempt
 import time
+from mongoengine.django.auth import User
 
 import pytz
 from pytz import timezone
@@ -129,7 +130,11 @@ class Ajax(object):
             StatusCode = 1
 
         # Get the members list
-        NewMembers = RoomMember.objects.filter(room=self.ThisRoom)
+        #NewMembers = RoomMember.objects.filter(room=self.ThisRoom)
+        Members = self.ThisRoom.participants.split(':')
+        NewMembers = []
+        for member in Members:
+            NewMembers.append(User.objects.get(pk=member))
 
         # Only keep the last X messages.
         l = len(NewMessages)

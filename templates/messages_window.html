@@ -8,55 +8,76 @@
 <link rel="stylesheet" type="text/css" media="screen" href="/static/tiny_mce_styles.css" />
 <link rel="stylesheet" type="text/css" href="/static/message_window.css">
 <!-- Load the JS for the chat window and start retrieving messages. -->
-<script type="text/javascript" src="/static/jqchat/jqchat_group.js"></script>
-
 {% endblock %}
 
 {% block content %}
-<h1>{{user.username}}</h1>
-<div id="room-list-container">
-	{% if rooms %}
-		<ul id="room-list">
-		{% for room in rooms %}
-			<li>
-				<a href="javascript:void(0);" data-id="{{room.room.id}}" data-group="{{room.is_group}}" data-partners="{{room.partners}}">Group {{room.room.id}}</a>
-				{%if room.users%}
-					<code>[</code>				
-					{%for user in room.users%}
-					<span>{{user.username}}</span>
-					{%endfor%}
-					<code>]</code>
-				{%endif%}
-			</li>
-		{% endfor %}
-		</ul>
-	{% endif %}
-</div>
-<div id="chat-window-container">
-	<div id="chatwindow"><span id="loading"></span></div>
-	<div id="form-container">
-		<form id="chatform">
-			<label for="msg">Message:</label>
-			<input type="text" id="msg" />
-			<input type="submit" value="Send message" /><br />
-		</form>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-sm-10 col-sm-offset-1">
+			<div id="room-list-container" class="col-sm-4">
+				{% if rooms %}
+					<ul id="room-list" class="list-group">
+					{% for room in rooms %}
+						<a class="list-group-item" href="javascript:void(0);" data-id="{{room.room.id}}" data-group="{{room.is_group}}" data-partners="{{room.partners}}">						
+							{%if room.users%}			
+							<h4 class="list-group-item-heading">
+							{%for user in room.users%}
+								{{user.username}}{% if not forloop.last %},{% endif %}
+							{%endfor%}
+							</h4>
+							{%endif%}						
+    							<p class="list-group-item-text"></p>
+						</a>
+						
+					{% endfor %}
+					</ul>
+				{% endif %}
+			</div>
+			<div id="chat-window-container" class="col-sm-5">
+				<div id="chatwindow"><span id="loading"></span></div>
+				<div id="form-container">
+					<form id="chatform">
+						<div class="form-group">
+							<div class="col-sm-10">
+								<textarea type="text" id="msg" class="form-control"/></textarea>
+							</div>
+							<div class="col-sm-2">
+								<button type="submit" class="btn btn-primary">Send</button>		
+							</div>
+						</div>						
+					</form>
+				</div>
+			</div>
+			<div id="memberswindow" class="col-sm-3"></div>
+		</div>
 	</div>
 </div>
-<div id="memberswindow"></div>
-<div class="clear"></div>
-
+{% endblock %}
+{% block scripts %}
+<script type="text/javascript" src="/static/jqchat/jqchat_group.js"></script>
 <script type="text/javascript">
 	csrf_token = '{{csrf_token}}';
-	$('#room-list li a').click(function(){
+	$('#room-list a').click(function(){
 		$('#chatwindow').empty();
 		var room_id = $(this).attr('data-id');
 		var partners = $(this).attr('data-partners');
 		var object = {};
+		var push_flag = true;
 		var url = '/chat/room/'+room_id+'/ajax/';
-		object['url'] = 'chat/room/'+room_id+'/ajax/';
+		object['url'] = '/chat/room/'+room_id+'/ajax/';
 		object['IntervalID'] = 0;
 		object['room'] = room_id;
 		object['partners'] = partners;
+		object['timestamp'] = 0;
+		for (var i = 0; i < GLOBALS.length; i++) {
+			if(GLOBALS[i].room == object.room){
+				push_flag = false;
+				break;
+			}
+		}
+		if (push_flag) {
+			GLOBALS.push(object);
+		};
 		room_join(object);
 		InitChatWindow(url, null, object);
 	});

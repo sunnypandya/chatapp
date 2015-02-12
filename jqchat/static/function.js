@@ -22,6 +22,7 @@ function makeChatClone(data, user_id, username){
 	if ($('#chat-frame-'+data.room).length > 0) {
 		return false;
 	};
+	var push_flag = true;
 	var temp = $('#chat-frame-container-clone').clone();
 	temp.attr('data-id', data.room);
 	$('#right-panel').append( temp );
@@ -37,7 +38,15 @@ function makeChatClone(data, user_id, username){
 	object['IntervalID'] = 0;
 	object['room'] = data.room;
 	object['partners'] = user_id;
-	GLOBALS.push(object);
+	for (var i = 0; i < GLOBALS.length; i++) {
+		if(GLOBALS[i].room == object.room){
+			push_flag = false;
+			break;
+		}
+	}
+	if (push_flag) {
+		GLOBALS.push(object);
+	};
 	room_join(object);
 	InitChatWindow(url, null, object);
 }

@@ -50,6 +50,8 @@ def logout_view(request):
     return HttpResponseRedirect('/')
 
 def home(request):
+    if request.user.is_authenticated():
+        return HttpResponseRedirect('/users/')
     return render(request, 'index.html')
 
 @login_required
@@ -57,7 +59,6 @@ def user_list(request):
     context = {}
     #users  = User.objects.filter(is_active=True, is_superuser = False, is_staff=False).exclude(username=request.user.username)
     users  = User.objects.filter(is_active=True, username__ne=request.user.username)
-    print users
     context['users'] = users
     context['login_timestamp'] = time.time()
     return render(request, 'chat_room.html', context)
@@ -94,7 +95,6 @@ def get_chat_list(request):
     login_timestamp = request.GET.get('login_timestamp', None)
     if login_timestamp:
         m_list = Message.objects.filter(unix_timestamp__gte=float(login_timestamp), event=None)
-        print m_list, 'm_list'
         room_set = set()
         for m in m_list:
             room_set.add(Room.objects.get(name=m.room))
@@ -119,7 +119,7 @@ def get_chat_list(request):
     else:
         return HttpResponse()
         
-
+@login_required
 def messages(request):
     context = {}
     room_array = []
