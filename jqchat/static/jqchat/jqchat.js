@@ -64,7 +64,9 @@ function callServer(){
               processResponse(payload);
               },
       'json'
-      ).fail(function(){
+      ).fail(function( jqXHR, textStatus, errorThrown ){
+            console.log(jqXHR);
+            console.log(errorThrown);
             clearInterval(IntervalID);
         });;
   };
@@ -116,20 +118,19 @@ function InitChatWindow(ChatMessagesUrl, ProcessResponseCallback){
   callServer();
 
   // Process messages input by the user & send them to the server.
-  $("form#chatform").submit(function(){
+  $("#chatform").submit(function(){
     // If user clicks to send a message on a empty message box, then don't do anything.
-    if($("#msg").val() == "") return false;
+    if($("#msg").val().trim() == "") return false;
 
     // We don't want to post a call at the same time as the regular message update call,
     // so cancel that first.
     clearInterval(IntervalID);
-
     $.post(url,
         {
         csrfmiddlewaretoken: csrf_token,
         time: timestamp,
         action: "postmsg",
-        message: $("#msg").val()
+        message: $("#msg").val().trim(),
               },
               function(payload) {
                     $("#msg").val(""); // clean out contents of input field.
@@ -141,7 +142,6 @@ function InitChatWindow(ChatMessagesUrl, ProcessResponseCallback){
         
         // Start calling the server again at regular intervals.
         IntervalID = setInterval(callServer, CallInterval);
-        
     return false;
   });
 
@@ -162,7 +162,7 @@ function InitChatDescription(){
 
   $("form#chatroom_description_form").submit(function(){
     // If user clicks to send a message on a empty message box, then don't do anything.
-    if($("#id_description").val() == "") return false;
+    if($("#id_description").val().trim() == "") return false;
     // We don't want to post a call at the same time as the regular message update call,
     // so cancel that first.
     clearInterval(IntervalID);
@@ -171,7 +171,7 @@ function InitChatDescription(){
         csrfmiddlewaretoken: csrf_token,
         time: timestamp,
         action: "change_description",
-        description: $("#id_description").val()
+        description: $("#id_description").val().trim()
               },
               function(payload) {
                     $("#id_description").val(""); // clean out contents of input field.

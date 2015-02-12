@@ -37,14 +37,20 @@
   <div class="row">  
   <div class="col-sm-12">
     <div id="chatwindow" class="col-sm-4"><span id="loading">Loading...</span></div>
-    <div id="memberswindow" class="col-sm-2"></div>
+    <div id="memberswindow" class="col-sm-2">
+      {% if users %}
+        {%for user in users%}
+        <strong>{{user.username}}</strong><br>
+        {%endfor%}
+      {%endif%}
+    </div>
     <div class="clear"></div><br>
     <form id="chatform" class="col-sm-4">
       <div class="form-group">
     	<label for="msg">Message:</label>
     	<textarea type="text" id="msg" class="form-control"></textarea>
       </div>
-  	<input type="submit" value="Send" class="btn btn-primary" /><br />
+  	<input type="submit" value="Send" class="btn btn-primary" />
     </form>
 </div>
 </div>
@@ -53,6 +59,7 @@
 {% block scripts %}
 <script type="text/javascript" src="/static/jqchat/jqchat.js"></script>
 <script type="text/javascript">
+  csrf_token = '{{csrf_token}}';
   $(document).ready(function(){
     InitChatWindow("{% url 'jqchat_ajax' room.id %}", null);
   });

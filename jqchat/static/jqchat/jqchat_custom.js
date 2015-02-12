@@ -124,7 +124,7 @@ function InitChatWindow(ChatMessagesUrl, ProcessResponseCallback, obj){
 	// Process messages input by the user & send them to the server.
 	$("#chatform-"+obj.room).submit(function(){
 		// If user clicks to send a message on a empty message box, then don't do anything.
-		if($("#msg-"+obj.room).val() == "") return false;
+		if($("#msg-"+obj.room).val().trim() == "") return false;
 
 		// We don't want to post a call at the same time as the regular message update call,
 		// so cancel that first.
@@ -135,7 +135,7 @@ function InitChatWindow(ChatMessagesUrl, ProcessResponseCallback, obj){
                             csrfmiddlewaretoken: csrf_token,
 				time: timestamp,
 				action: "postmsg",
-				message: $("#msg-"+obj.room).val()
+				message: $("#msg-"+obj.room).val().trim()
            		},
            		function(payload) {
          						$("#msg-"+obj.room).val(""); // clean out contents of input field.

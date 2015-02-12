@@ -58,15 +58,19 @@ var IntervalID = 0;
 var prCallback = null;
 
 function callServer(obj){
-        if (obj.timestamp == 0) {return false;};
+  alert('callServer called');
+        if (obj.timestamp == 0) {return;};
   // At each call to the server we pass data.
   $.get(obj.url, // the url to call.
       {time: obj.timestamp}, // the data to send in the GET request.
       function(payload) { // callback function to be called after the GET is completed.
+                                                  console.log(payload);
                                                   processResponse(payload, obj);
               },
       'json'
-        ).fail(function(){
+        ).fail(function( jqXHR, textStatus, errorThrown ){
+            console.log(errorThrown);
+            console.log(jqXHR);
             clearInterval(obj.IntervalID);
         });
   };
@@ -119,13 +123,12 @@ function InitChatWindow(ChatMessagesUrl, ProcessResponseCallback, obj){
   // manually trigger an immediate call.
   if (!duplicate_msg_possible) {
                 duplicate_msg_possible = false;
-                
+                callServer(obj);        
        }
-  callServer(obj);
   // Process messages input by the user & send them to the server.
   $("#chatform").submit(function(){
     // If user clicks to send a message on a empty message box, then don't do anything.
-    if($("#msg").val() == "") return false;
+    if($("#msg").val().trim() == "") return false;
 
     // We don't want to post a call at the same time as the regular message update call,
     // so cancel that first.
@@ -136,7 +139,7 @@ function InitChatWindow(ChatMessagesUrl, ProcessResponseCallback, obj){
                             csrfmiddlewaretoken: csrf_token,
         time: obj.timestamp,
         action: "postmsg",
-        message: $("#msg").val()
+        message: $("#msg").val().trim()
               },
               function(payload) {
                     $("#msg").val(""); // clean out contents of input field.

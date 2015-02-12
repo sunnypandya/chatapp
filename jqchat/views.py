@@ -29,8 +29,10 @@ def window(request, id):
     """A basic chat client window."""
     testin=ObjectId(id)
     ThisRoom = get_object_or_404(Room, id=testin)
+    user_list = ThisRoom.participants.split(':')
+    users = User.objects.filter(id__in=user_list)
     if str(request.user.id) in ThisRoom.participants:
-        return render_to_response('jqchat/chat_test.html', {'room': ThisRoom},
+        return render_to_response('jqchat/chat_test.html', {'room': ThisRoom, 'users': users},
                               context_instance=RequestContext(request))
     else:
         return HttpResponseBadRequest('Aha! You are not allowed !!!')
@@ -152,6 +154,7 @@ class Ajax(object):
                                    'TimeDisplayFormat': DATE_FORMAT
                                    },
                                   context_instance=RequestContext(self.request))
+        print response
         response['Content-Type'] = 'text/plain; charset=utf-8'
         response['Cache-Control'] = 'no-cache'
         return response
