@@ -104,6 +104,8 @@ function ExceptionHandler(){
 
 GLOBALS = [];
 
+BREAK_LINE_REPLACE = '#13;'
+
 function set (arr) {
   return arr.reduce(function (a, val) {
     if (a.indexOf(val) === -1) {

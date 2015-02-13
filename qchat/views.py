@@ -77,6 +77,7 @@ def get_chat_room(request):
         for partner in permutations:
             try:
                 room = Room.objects.get(participants=partner).id
+                print room
                 create_room = False
                 break
             except Exception, e:

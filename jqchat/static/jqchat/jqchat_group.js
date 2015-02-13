@@ -81,7 +81,7 @@ function processResponse(payload, obj) {
   // Get the timestamp, store it in global variable to be passed to the server on next call.
   obj.timestamp = payload.time;
   for(message in payload.messages) {
-              $('#chat-window-container').find('#chatwindow').append(payload.messages[message].text);
+              $('#chat-window-container').find('#chatwindow').append('<p>'+payload.messages[message].text.replace(BREAK_LINE_REPLACE,'<br/>')+'</p>');
   }
         // Populate the room members window
         //$("#memberswindow").html("")
@@ -134,12 +134,12 @@ function InitChatWindow(ChatMessagesUrl, ProcessResponseCallback, obj){
     // so cancel that first.
     clearInterval(obj.IntervalID);
 
-    $.post(url,
+    $.post(obj.url,
         {
                             csrfmiddlewaretoken: csrf_token,
         time: obj.timestamp,
         action: "postmsg",
-        message: $("#msg").val().trim()
+        message: $("#msg").val().trim().replace(/(?:\r\n|\r|\n)/g, BREAK_LINE_REPLACE),
               },
               function(payload) {
                     $("#msg").val(""); // clean out contents of input field.

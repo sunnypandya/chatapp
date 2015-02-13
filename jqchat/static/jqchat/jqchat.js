@@ -77,10 +77,10 @@ function processResponse(payload) {
   // Get the timestamp, store it in global variable to be passed to the server on next call.
   timestamp = payload.time;
   for(message in payload.messages) {
-    $("#chatwindow").append(payload.messages[message].text);
+    $("#chatwindow").append('<p>'+payload.messages[message].text.replace(BREAK_LINE_REPLACE,'<br/>')+'</p>');
   }
         // Populate the room members window
-        $("#memberswindow").html("")
+        $("#memberswindow").html("");
         for(member in payload.members) {
                 $("#memberswindow").append('<strong>'+payload.members[member].username+'</strong><br />');
         }
@@ -130,7 +130,7 @@ function InitChatWindow(ChatMessagesUrl, ProcessResponseCallback){
         csrfmiddlewaretoken: csrf_token,
         time: timestamp,
         action: "postmsg",
-        message: $("#msg").val().trim(),
+        message: $("#msg").val().trim().replace(/(?:\r\n|\r|\n)/g, BREAK_LINE_REPLACE),
               },
               function(payload) {
                     $("#msg").val(""); // clean out contents of input field.
@@ -171,7 +171,7 @@ function InitChatDescription(){
         csrfmiddlewaretoken: csrf_token,
         time: timestamp,
         action: "change_description",
-        description: $("#id_description").val().trim()
+        description: $("#id_description").val().trim().replace(/(?:\r\n|\r|\n)/g, BREAK_LINE_REPLACE),
               },
               function(payload) {
                     $("#id_description").val(""); // clean out contents of input field.

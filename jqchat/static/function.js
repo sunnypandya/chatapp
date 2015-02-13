@@ -12,6 +12,7 @@ $('#user-list li a').click(function(){
 		},
 		dataType: 'json',
 		success: function(data){
+			console.log(data);
 			duplicate_msg_possible = false;
 			makeChatClone(data, user_id, username);
 		}
@@ -32,10 +33,11 @@ function makeChatClone(data, user_id, username){
 	temp.find('#msg').attr('id', 'msg-'+data.room).addClass('msg-class');
 	temp.find('.members-list').text(username);
 	temp.find('.chat-show').show();
-	url = "/chat/room/"+data.room+"/ajax/";
+	var url = "/chat/room/"+data.room+"/ajax/";
 	var object = {};
 	object['url'] = url;
 	object['IntervalID'] = 0;
+	object['timestamp'] = 0;
 	object['room'] = data.room;
 	object['partners'] = user_id;
 	for (var i = 0; i < GLOBALS.length; i++) {

@@ -155,7 +155,7 @@ class Ajax(object):
                                    },
                                   context_instance=RequestContext(self.request))
         print response
-        response['Content-Type'] = 'text/plain; charset=utf-8'
+        response['Content-Type'] = 'msg_text/plain; charset=utf-8'
         response['Cache-Control'] = 'no-cache'
         return response
 
